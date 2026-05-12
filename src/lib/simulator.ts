@@ -124,7 +124,8 @@ export function useSimulator(mode: SimMode) {
         key: t.key, label: t.label, color: t.color, severity: t.severity,
         zone: camera.zone, pos, ts: Date.now(), status: "responding", guardId: guard.id,
       };
-      const guards = s.guards.map(g => g.id === guard.id ? { ...g, status: t.severity >= 3 ? "emergency" : "investigating" as const } : g);
+      const newStatus: GuardPost["status"] = t.severity >= 3 ? "emergency" : "investigating";
+      const guards: GuardPost[] = s.guards.map(g => g.id === guard.id ? { ...g, status: newStatus } : g);
       const next = { ...s, incidents: [inc, ...s.incidents].slice(0, 40), guards };
       return { ...next, ...computeRisk(next) };
     });
