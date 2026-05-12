@@ -536,7 +536,7 @@ export default function SketchfabViewer() {
         </button>
       </div>
 
-      <div className="absolute bottom-4 left-4 z-40 w-[330px] rounded-2xl border border-cyan-400/30 bg-slate-950/75 px-4 py-3 text-[10px] font-mono uppercase tracking-[0.24em] text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.12)] backdrop-blur-md">
+      {/* <div className="absolute bottom-4 left-4 z-40 w-[330px] rounded-2xl border border-cyan-400/30 bg-slate-950/75 px-4 py-3 text-[10px] font-mono uppercase tracking-[0.24em] text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.12)] backdrop-blur-md">
         <div className="mb-3 flex items-center justify-between text-cyan-300">
           <span>FPV Camera Controls</span>
           <span className="rounded-full border border-cyan-400/30 px-2 py-1 text-[9px] tracking-[0.2em] text-cyan-200">
@@ -564,8 +564,8 @@ export default function SketchfabViewer() {
             <span>Gamepad</span>
             <span className="text-cyan-300">Sticks + Triggers</span>
           </div>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </div>
   );
 }

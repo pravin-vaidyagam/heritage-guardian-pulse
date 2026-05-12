@@ -139,6 +139,14 @@
   .corner-frame::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
   .corner-frame::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
 
+  /* Print styles for PDF export */
+  @media print {
+    [data-export-ignore="true"] { display: none !important; }
+    body { margin: 0; padding: 20mm; background: #020617; }
+    * { page-break-inside: avoid; }
+    .page-break-inside-avoid { page-break-inside: avoid; }
+  }
+
   @keyframes pulse-ring {
     0% { transform: scale(0.6); opacity: 0.9; }
     100% { transform: scale(2.6); opacity: 0; }
