@@ -1,5 +1,6 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "virasat-protect",
+  "description": "AI-powered heritage protection and monitoring dashboard for the Taj Mahal",
   "private": true,
   "sideEffects": false,
   "type": "module",

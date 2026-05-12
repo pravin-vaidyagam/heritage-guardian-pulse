@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Activity, Shield, Wind, Droplets, Thermometer, Gauge, Megaphone, UserCheck, Cctv, AlertTriangle, ShieldAlert, Users, Trash2, Hand, Lock, UsersRound, Baby, HeartPulse } from "lucide-react";
 import { LineChart, Line, ResponsiveContainer, YAxis } from "recharts";
 import { Panel } from "./Panel";
+import { IncidentProgress, getIncidentStageFromStatus } from "./IncidentProgress";
 import type { SimState, Incident } from "@/lib/simulator";
 
 const ICON: Record<string, any> = { ShieldAlert, Users, Trash2, Hand, Lock, UsersRound, Baby, HeartPulse, AlertTriangle };
@@ -147,27 +148,24 @@ function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; va
 function AlertRow({ inc }: { inc: Incident }) {
   const Icon = ICON[iconForKey(inc.key)] ?? AlertTriangle;
   const color = inc.color === "danger" ? "text-danger border-danger/40" : inc.color === "warn" ? "text-warn border-warn/40" : "text-cyan border-cyan/40";
+  const stage = getIncidentStageFromStatus(inc.status);
   return (
     <motion.div
       layout
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0 }}
-      className={`flex items-center gap-2 px-2 py-1.5 rounded border bg-black/30 ${color}`}
+      className={`flex items-start gap-2 px-2 py-2 rounded border bg-black/30 ${color}`}
     >
       <Icon className="size-3.5 shrink-0" />
       <div className="flex-1 min-w-0">
-        <div className="text-[11px] truncate">{inc.label}</div>
+        <div className="text-[11px] truncate font-semibold">{inc.label}</div>
         <div className="text-[9px] text-muted-foreground truncate">{inc.zone} · {inc.id}</div>
       </div>
-      <div className="text-[9px] text-muted-foreground tabular-nums">
-        {new Date(inc.ts).toLocaleTimeString([], { hour12: false })}
+      <div className="flex flex-col items-center gap-1 min-w-[90px]">
+        <div className="text-[9px] text-muted-foreground tabular-nums text-center">{new Date(inc.ts).toLocaleTimeString([], { hour12: false })}</div>
+        <IncidentProgress stage={stage} />
       </div>
-      {inc.status === "resolved" ? (
-        <span className="text-[9px] text-emerald-400">✓</span>
-      ) : (
-        <span className="size-1.5 rounded-full bg-current blink" />
-      )}
     </motion.div>
   );
 }
