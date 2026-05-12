@@ -38,6 +38,7 @@ export type SimState = {
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
 const pick = <T,>(a: readonly T[]) => a[Math.floor(Math.random() * a.length)];
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 function modeWeather(mode: SimMode): Weather {
   switch (mode) {
@@ -56,8 +57,13 @@ function modeBaseline(mode: SimMode) {
     case "Monsoon Day": return { visitors: 6400, crowdMul: 0.6, incidentRate: 0.35 };
     case "Security Threat": return { visitors: 11000, crowdMul: 0.95, incidentRate: 0.85 };
     case "Mixed Incident": return { visitors: 13500, crowdMul: 1.1, incidentRate: 0.9 };
-    default: return { visitors: 12450, crowdMul: 1.0, incidentRate: 0.25 };
+    default: return { visitors: 3600, crowdMul: 1.0, incidentRate: 0.25 };
   }
+}
+
+function visitorRange(mode: SimMode, capacity: number) {
+  if (mode === "Normal Day") return { min: 2000, max: 5000 };
+  return { min: 0, max: capacity * 1.05 };
 }
 
 function nearestGuard(pos: Coord, guards: GuardPost[]) {
@@ -87,9 +93,13 @@ export function initialState(mode: SimMode = "Normal Day"): SimState {
   const weather = modeWeather(mode);
   const crowds = CROWD_BASE.map(c => ({ ...c, intensity: Math.min(1, c.intensity * base.crowdMul) }));
   const guards = GUARDS.map(g => ({ ...g }));
+  const capacity = 10000;
+  const range = visitorRange(mode, capacity);
   const partial = {
-    mode, visitors: base.visitors, capacity: 20000,
-    visitorTrend: Array.from({ length: 24 }, (_, i) => Math.round(base.visitors * (0.4 + 0.6 * Math.sin(i / 24 * Math.PI)))),
+    mode, visitors: clamp(base.visitors, range.min, range.max), capacity,
+    visitorTrend: Array.from({ length: 24 }, (_, i) =>
+      Math.round(clamp(base.visitors * (0.75 + 0.25 * Math.sin(i / 24 * Math.PI)), range.min, range.max))
+    ),
     weather, crowds, incidents: [] as Incident[], guards,
     activeIncidents: 0, preservationScore: 87, lastTick: Date.now(),
   };
@@ -134,8 +144,12 @@ export function useSimulator(mode: SimMode) {
   useEffect(() => {
     const id = setInterval(() => {
       setState(s => {
-        const visitors = Math.max(0, Math.min(s.capacity * 1.05,
-          s.visitors + Math.round(rand(-120, 160) * (s.mode === "Tourist Rush" ? 1.5 : 1))));
+        const range = visitorRange(s.mode, s.capacity);
+        const visitors = clamp(
+          s.visitors + Math.round(rand(-120, 160) * (s.mode === "Tourist Rush" ? 1.5 : 1)),
+          range.min,
+          range.max,
+        );
         const visitorTrend = [...s.visitorTrend.slice(1), visitors];
         const w = s.weather;
         const weather: Weather = {

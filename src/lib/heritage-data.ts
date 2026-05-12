@@ -37,9 +37,6 @@ export type CrowdCluster = {
 
 export const CAMERAS: Camera[] = [
   { id: "CAM-01", name: "Great Gate Cam", zone: "Main Entrance", pos: { x: 50, y: 88 }, facing: 0, status: "online" },
-  { id: "CAM-02", name: "Garden West", zone: "Garden West", pos: { x: 32, y: 62 }, facing: 60, status: "online" },
-  { id: "CAM-03", name: "Garden East", zone: "Garden East", pos: { x: 68, y: 62 }, facing: -60, status: "online" },
-  { id: "CAM-04", name: "Reflecting Pool", zone: "Central Plaza", pos: { x: 50, y: 60 }, facing: 0, status: "online" },
   { id: "CAM-05", name: "Mausoleum Plaza", zone: "Monument Inner Ring", pos: { x: 50, y: 38 }, facing: 180, status: "online" },
   { id: "CAM-06", name: "Minaret NW", zone: "Monument Inner Ring", pos: { x: 38, y: 30 }, facing: 135, status: "online" },
   { id: "CAM-07", name: "Minaret NE", zone: "Monument Inner Ring", pos: { x: 62, y: 30 }, facing: 225, status: "online" },
@@ -47,6 +44,10 @@ export const CAMERAS: Camera[] = [
   { id: "CAM-09", name: "Jawab East", zone: "Garden East", pos: { x: 82, y: 45 }, facing: -90, status: "online" },
   { id: "CAM-10", name: "River Edge", zone: "River Edge", pos: { x: 50, y: 16 }, facing: 180, status: "online" },
   { id: "CAM-11", name: "Basement Access", zone: "Basement Entrance", pos: { x: 56, y: 36 }, facing: 90, status: "alert" },
+  { id: "CAM-12", name: "South Wall West", zone: "Garden West", pos: { x: 28, y: 78 }, facing: 45, status: "online" },
+  { id: "CAM-13", name: "South Wall East", zone: "Garden East", pos: { x: 88, y: 78 }, facing: -45, status: "online" },
+  { id: "CAM-14", name: "Northwest Tower", zone: "River Edge", pos: { x: 24, y: 28 }, facing: 135, status: "online" },
+  { id: "CAM-15", name: "Northeast Tower", zone: "River Edge", pos: { x: 76, y: 28 }, facing: -135, status: "online" },
 ];
 
 export const GUARDS: GuardPost[] = [
